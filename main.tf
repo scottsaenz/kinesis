@@ -36,6 +36,12 @@ resource "aws_lambda_function" "consumer" {
   role            = aws_iam_role.consumer_role.arn
   handler         = "read_kinesis.lambda_handler"
   runtime         = "python3.9"
+
+  environment {
+    variables = {
+      STREAM_NAME = aws_kinesis_stream.data_stream.name
+    }
+  }
 }
 
 # Create Lambda Event Source Mapping
