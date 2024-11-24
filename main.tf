@@ -1,5 +1,6 @@
 provider "aws" {
   region = var.aws_region
+
 }
 
 # Create Kinesis Data Stream
@@ -18,7 +19,7 @@ resource "aws_lambda_function" "producer" {
   filename         = data.archive_file.producer_lambda.output_path
   function_name    = "kinesis-producer"
   role            = aws_iam_role.producer_role.arn
-  handler         = "lambda_function.lambda_handler"
+  handler         = "put_kinesis.lambda_handler"
   runtime         = "python3.9"
 
   environment {
@@ -33,7 +34,7 @@ resource "aws_lambda_function" "consumer" {
   filename         = data.archive_file.consumer_lambda.output_path
   function_name    = "kinesis-consumer"
   role            = aws_iam_role.consumer_role.arn
-  handler         = "lambda_function.lambda_handler"
+  handler         = "read_kinesis.lambda_handler"
   runtime         = "python3.9"
 }
 
